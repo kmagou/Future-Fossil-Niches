@@ -1,4 +1,5 @@
-#more plots
+# Code by K. Magoulick to perform statistical tests and make plots July 2025
+# R version 4.4.1 (Race for Your Life)
 
 library(readr)      #readr v.2.1.5      
 library(dplyr)      #dplyr v.1.1.4 
@@ -7,11 +8,14 @@ library(maps)
 
 setwd("/Users/Marshall_Lab/Desktop/Chapter_3")
 
-#plot pliocene fossil occurrences
+### Plot Pliocene fossil occurrences
+#PBDB API
 plio <- read_csv("https://paleobiodb.org/data1.2/occs/list.csv?datainfo&rowcount&base_name=Mammalia&interval=Pliocene,Pliocene&cc=US&envtype=terrestrial&pgm=gplates&show=full", skip = 21)
 
+#background map
 usa <- map_data("usa")
 
+#Plot a map of the PBDB data
 ggplot(data=plio, aes(x = lng, y = lat)) + 
   geom_polygon(data=usa, aes(x=long, y=lat, group=group), fill='lightgrey') + 
   geom_point(color="#111D4A") +
@@ -19,8 +23,8 @@ ggplot(data=plio, aes(x = lng, y = lat)) +
         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
   coord_cartesian(xlim = c(-130, -65), ylim = c(20, 50))
 
-#38369A, #EAC435
 
+### Producing maps for figure 2
 #overestimate
 basinData1<-read.csv("/Users/Marshall_Lab/Desktop/Chapter_3/Kat_data/modern_climate_contiguous_US_BASIN_OVERLAP.csv")
 basinAnal1<-na.omit(basinData1)

@@ -7,9 +7,10 @@ library(ggplot2)  #ggplot2 v.3.5.1
 library(gridExtra)#gridExtra v.2.3
 library(forcats)  #forcats v.1.0.0
 library(lme4)     #lme4 v.1.1-35.5
+library(ggtext)   #ggtext v.0.1.2 
 
 #get the data
-setwd("/Users/Marshall_Lab/Desktop/Chapter_3")
+setwd("C:/Users/au807879/OneDrive - Aarhus universitet/Desktop/More_Ch3")
 final_data_over<-read.csv("Similarity_Basins-NoBasins_overestimate.csv")
 final_data_under<-read.csv("Similarity_Basins-NoBasins_underestimate.csv")
 
@@ -30,11 +31,11 @@ write.csv(joint_data,"Overlap_eqiuv_sim.csv")
   scale_fill_manual(values=c(Overlap.x="springgreen3", Overlap.y="skyblue3"), labels = c("Overestimate", "Underestimate"), 
                     guide = guide_legend(override.aes = list(color = c("springgreen4", "skyblue4")))) +
   labs(y = "Density", 
-       x = "Overlap (Schoener's D)") +
+       x = "Overlap (Schoener's *D*)") +
   theme_minimal() +
   theme(legend.position = "inside", legend.position.inside = c(0.1, 0.9),
         legend.title = element_blank(), axis.text = element_text(size = 12), 
-        axis.title = element_text(size = 16)))
+        axis.title = element_text(size = 16), axis.title.x = ggtext::element_markdown()))
 
 #summary stats
 summarize(final_data_over, Average = mean(Overlap, na.rm = T), sd = sd(Overlap, na.rm = T))
@@ -96,7 +97,7 @@ plot_combined_MAT <- bind_rows(
     theme_minimal() +
     theme(legend.position = "inside", legend.position.inside = c(0.1, 0.9),
           legend.title = element_blank(), axis.title.x = element_blank(),
-          axis.text = element_text(size = 12), axis.title = element_text(size = 16)))
+          axis.text = element_text(size = 14), axis.title = element_text(size = 16)))
 
 wilcox.test(final_data_over$delta_max_MAT, mu = 0, alternative = "two.sided", exact = FALSE)
 wilcox.test(final_data_under$delta_max_MAT, mu = 0, alternative = "two.sided", exact = FALSE)
@@ -135,7 +136,7 @@ plot_combined_MAP <- bind_rows(
     theme_minimal() +
     theme(legend.position = "none", 
           legend.title = element_blank(), axis.title.x = element_blank(),
-          axis.text = element_text(size = 12), axis.title = element_text(size = 16)))
+          axis.text = element_text(size = 14), axis.title = element_text(size = 16)))
 
 grid.arrange(violin_plot_MAT, violin_plot_MAP, ncol = 1)
 
@@ -161,20 +162,20 @@ plot(model_over, which = 2)
 (lm_plot_over <- ggplot(final_data_over, aes(x = percent, y = Overlap)) +
   geom_point() +
   geom_smooth(method = "lm", color = "springgreen3") +
-  labs(x = "Proportion of Present Occurrences in Unconsolidated Sediments", y = "Overlap (Schoener's D)") +
+  labs(x = "Proportion of Present Occurrences in Unconsolidated Sediments", y = "Overlap (Schoener's *D*)") +
   theme_light() +
   theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 16)) +
+        axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
   lims(x = c(0, 1), y = c(0, 1)))
 
 
 (lm_plot_under <- ggplot(final_data_under, aes(x = percent, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "skyblue3") +
-    labs(x = "Proportion of Present Occurrences in Sedimentary Basins", y = "Overlap (Schoener's D)") +
+    labs(x = "Proportion of Present Occurrences in Sedimentary Basins", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)) +
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
     lims(x = c(0, 1), y = c(0, 1)))
 
 
@@ -187,10 +188,10 @@ summary(model2_over)
 (lm_plot_over2 <- ggplot(final_data_over, aes(x = basins, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "springgreen3") +
-    labs(x = "Number of Occurrences in Unconsolidated Sediments", y = "Overlap (Schoener's D)") +
+    labs(x = "Number of Occurrences in Unconsolidated Sediments", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)) +
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
     lims(x = c(0, 2600), y = c(0, 1.05)))
 
 model2_under <- lm(Overlap ~ basins, data = final_data_under)
@@ -199,10 +200,10 @@ summary(model2_under)
 (lm_plot_under2 <- ggplot(final_data_under, aes(x = basins, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "skyblue3") +
-    labs(x = "Number of Occurrences in Sedimentary Basins", y = "Overlap (Schoener's D)") +
+    labs(x = "Number of Occurrences in Sedimentary Basins", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)) +
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
     lims(x = c(0, 2600), y = c(0, 1.05)))
 
 grid.arrange(lm_plot_over2, lm_plot_under2, ncol = 1)
@@ -215,10 +216,10 @@ summary(model3_over)
 (lm_plot_over3 <- ggplot(final_data_over, aes(x = all, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "springgreen3") +
-    labs(x = "Number of Occurrences in the Present", y = "Overlap (Schoener's D)") +
+    labs(x = "Number of Occurrences in the Present", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16))) 
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown())) 
   
 model3_under <- lm(Overlap ~ all, data = final_data_under)
 summary(model3_under)
@@ -226,10 +227,10 @@ summary(model3_under)
 (lm_plot_under3 <- ggplot(final_data_under, aes(x = all, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "skyblue3") +
-    labs(x = "Number of Occurrences in the Present", y = "Overlap (Schoener's D)") +
+    labs(x = "Number of Occurrences in the Present", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)))
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()))
 
 grid.arrange(lm_plot_over3, lm_plot_under3, ncol = 1)
 
@@ -240,10 +241,10 @@ summary(model4_over)
 (lm_plot_over4 <- ggplot(final_data_over, aes(x = Adult_body_mass_g, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "springgreen3") +
-    labs(x = "Adult body mass (g)", y = "Overlap (Schoener's D)") +
+    labs(x = "Adult body mass (g)", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)) +
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
     lims(y = c(-0.2, 1))) 
 
 model4_under <- lm(Overlap ~ Adult_body_mass_g, data = final_data_under)
@@ -252,10 +253,10 @@ summary(model4_under)
 (lm_plot_under4 <- ggplot(final_data_under, aes(x = Adult_body_mass_g, y = Overlap)) +
     geom_point() +
     geom_smooth(method = "lm", color = "skyblue3") +
-    labs(x = "Adult body mass (g)", y = "Overlap (Schoener's D)") +
+    labs(x = "Adult body mass (g)", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(axis.text = element_text(size = 12),
-          axis.title = element_text(size = 16)) +
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()) +
     lims(y = c(-0.2, 1)))
 
 grid.arrange(lm_plot_over4, lm_plot_under4, ncol = 1)
@@ -289,12 +290,12 @@ grid.arrange(lm_plot_over4, lm_plot_under4, ncol = 1)
     geom_point(data = final_data_under, aes(x = percent, y = Overlap, color = "Underestimate")) + 
     scale_color_manual(values=c("springgreen3", "skyblue4")) +
     facet_wrap(~ order) +
-    labs(x = "Proportion of Present Occurrences in areas of sedimentation", y = "Overlap (Schoener's D)") +
+    labs(x = "Proportion of Present Occurrences in areas of sedimentation", y = "Overlap (Schoener's *D*)") +
     theme_light() +
     theme(legend.position = "inside", legend.position.inside = c(0.5, 0.15),
-          legend.title = element_blank(), strip.text = element_text(size = 12, colour = 'black'),
+          legend.title = element_blank(), strip.text = element_text(size = 14, colour = 'white'), legend.text = element_text(size = 12),
           axis.text = element_text(size = 10),
-          axis.title = element_text(size = 16)))
+          axis.title = element_text(size = 16), axis.title.y = ggtext::element_markdown()))
 
 #mixed effects model
 mixed.lmer_over <- lmer(Overlap ~ percent + (1|order), data = final_data_over)
@@ -308,20 +309,3 @@ summary(mixed.lmer_under)
 plot(mixed.lmer_under)
 
 0.002801/(0.002801 + 0.028271)
-
-library(ggEffects)
-ggpredict(mixed.lmer2, terms = c("bodyLength2", "mountainRange"), type = "re") %>% 
-  plot() +
-  labs(x = "Body Length", y = "Test Score", title = "Effect of body size on intelligence in dragons") + 
-  theme_minimal()
-
-stargazer(mixed.lmer_under, type = "text",
-          digits = 3,
-          star.cutoffs = c(0.05, 0.01, 0.001),
-          digit.separator = "")
-stargazer(mixed.lmer_over, type = "text",
-          digits = 3,
-          star.cutoffs = c(0.05, 0.01, 0.001),
-          digit.separator = "")
-
-confint(mixed.lmer_under)

@@ -1,4 +1,4 @@
-# Adapted by K. Magoulick 4/8/25 from "4_Comparing_niches_Pre_Post"
+# Adapted by K. Magoulick April 8 2025 from "4_Comparing_niches_Pre_Post"
 # Original code by Silvia Pineda-Munoz; 19 August 2019
 # R version 4.4.1 (Race for Your Life)
 
@@ -186,7 +186,7 @@ for (i in 1:length(speciesAnal)){
   UnfillingSp[i]<-length(SUnfilling[SUnfilling<=Unfilling[i]])/100
   
   ##Plotting
-  #This section of code was adapted from code by Marc Riera in [CITATION]
+  #This section of code was adapted from code by Marc Riera in Riera, Marc; Vilà Planella, Montserrat; Melero, Yolanda; Sáez, Llorenç; Pino, Joan, 2025, "Replication Data for: "Climatic niche conservatism in non-native plants is largely dependent on their climatic niche breadth in the native range"", https://doi.org/10.34810/data1716, CORA.Repositori de Dades de Recerca, V2 
   subsetAll2<-droplevels(dataAllAnal[dataAllAnal$Species==as.character(speciesAnal[i]),])
   subsetBasins2<-dataBasinsAnal[dataBasinsAnal$Species==as.character(speciesAnal[i]),]
   
@@ -375,7 +375,7 @@ densityBasins <- dataBasins %>%
 
 # get order data
 # set your api key as an environmental variable so you do not upload
-Sys.setenv(ENTREZ_KEY = "e3e45b379994bffa4f88a23e682b9f6f2708") #delete key before uploading to github
+Sys.setenv(ENTREZ_KEY = "") #delete key before uploading to github
 
 # now call the variable that you set
 Sys.getenv("ENTREZ_KEY")
